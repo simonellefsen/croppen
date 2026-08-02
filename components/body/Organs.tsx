@@ -43,11 +43,16 @@ export function Organs({ sex }: { sex: Sex }) {
           d="M210 40C232 40 248 56 250 78C251 94 248 106 243 116C240 122 234 126 227 127L193 127C186 126 180 122 177 116C172 106 169 94 170 78C172 56 188 40 210 40Z"
           fill="url(#brainFill)"
         />
-        <g fill="none" stroke="#9e6d60" strokeWidth="1.5" opacity="0.75" strokeLinecap="round">
-          <path d="M180 62C192 54 228 54 240 62" />
-          <path d="M175 76C190 68 230 68 245 76" />
-          <path d="M174 90C190 84 230 84 246 90" />
-          <path d="M178 104C192 99 228 99 242 104" />
+        {/* Gyri and sulci — wandering rather than concentric, so the surface
+            reads as folded cortex instead of a striped dome. */}
+        <g fill="none" stroke="#9e6d60" strokeWidth="1.6" opacity="0.8" strokeLinecap="round">
+          <path d="M184 58C192 66 186 74 194 80C202 86 196 96 202 104" />
+          <path d="M236 58C228 66 234 74 226 80C218 86 224 96 218 104" />
+          <path d="M176 74C186 78 182 88 190 94C198 100 192 110 198 118" />
+          <path d="M244 74C234 78 238 88 230 94C222 100 228 110 222 118" />
+          <path d="M196 48C204 54 216 54 224 48" />
+          <path d="M180 96C188 104 182 112 188 120" />
+          <path d="M240 96C232 104 238 112 232 120" />
           <path d="M210 42L210 126" strokeWidth="1.8" />
         </g>
       </Part>
