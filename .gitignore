@@ -1,0 +1,12 @@
+# Reference photographs of the source book — copyrighted, never committed.
+screenshots
+
+node_modules
+.next
+out
+.vercel
+next-env.d.ts
+*.tsbuildinfo
+
+.DS_Store
+.env*.local
