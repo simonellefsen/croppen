@@ -1,6 +1,7 @@
 "use client";
 
 import type { Sex } from "@/lib/anatomy/types";
+import { Plate } from "./Plate";
 import { Bilateral, Part } from "./primitives";
 
 /**
@@ -53,7 +54,8 @@ export function Skeleton({ sex }: { sex: Sex }) {
   const shoulder = sex === "female" ? 0 : -10;
 
   return (
-    <g className="layer-skeleton" fill="url(#boneRound)">
+    <g className="layer-skeleton has-plate" fill="url(#boneRound)">
+      <Plate sex={sex} name="skeleton" />
       {/* ── Skull ── */}
       <Part id="skull">
         <path d="M210 34C236 34 251 51 253 76C254 93 251 106 246 116C243 124 236 131 227 133L193 133C184 131 177 124 174 116C169 106 166 93 167 76C169 51 184 34 210 34Z" />

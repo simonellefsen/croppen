@@ -1,6 +1,15 @@
 # Reference photographs of the source book — copyrighted, never committed.
 screenshots
 
+# Intermediate art (final webps live in public/)
+art/blender/renders/
+art/blender/croppen_anatomy.blend
+art/blender/croppen_anatomy.blend1
+art/krita/out/
+art/affinity/out/
+art/affinity/croppen-*.svg
+art/sprites/
+
 node_modules
 .next
 out

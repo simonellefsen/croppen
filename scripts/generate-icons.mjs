@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 /**
- * Renders the app icons from a single inline SVG source.
+ * Renders the app icons.
  *
- * The PNGs are committed, so a Vercel build never has to run this — it exists
- * so the icons can be regenerated reproducibly when the mark changes.
+ * Prefers the 3D bust slices from art/blender/renders (skin | muscle | bone).
+ * Falls back to the original vector mark if those plates are missing.
  *   npm run icons
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { access, mkdir, writeFile } from "node:fs/promises";
+import { constants } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const OUT = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "icons");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const OUT = join(ROOT, "public", "icons");
+const RENDERS = join(ROOT, "art/blender/renders");
 
 /**
  * A bust sliced into the app's three headline layers — skin, muscle, bone —
@@ -42,8 +45,42 @@ const mark = (inset) => `
   </g>
 </svg>`;
 
+async function exists(p) {
+  try {
+    await access(p, constants.F_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function threeSliceMark() {
+  const files = ["female-icon-skin.png", "female-icon-muscles.png", "female-icon-skeleton.png"].map(
+    (f) => join(RENDERS, f),
+  );
+  if (!(await Promise.all(files.map(exists))).every(Boolean)) return null;
+  const size = 512;
+  const third = Math.floor(size / 3);
+  const strips = [];
+  for (const file of files) {
+    const resized = await sharp(file).resize(size, size, { fit: "cover", position: "top" }).png().toBuffer();
+    strips.push(await sharp(resized).extract({ left: third, top: 0, width: third, height: size }).png().toBuffer());
+  }
+  return sharp({
+    create: { width: size, height: size, channels: 4, background: "#05080b" },
+  })
+    .composite([
+      { input: strips[0], left: 0, top: 0 },
+      { input: strips[1], left: third, top: 0 },
+      { input: strips[2], left: third * 2, top: 0 },
+    ])
+    .png()
+    .toBuffer();
+}
+
 async function main() {
   await mkdir(OUT, { recursive: true });
+  const sliced = await threeSliceMark();
 
   const jobs = [
     { file: "icon-192.png", size: 192, inset: 0.06 },
@@ -54,10 +91,22 @@ async function main() {
   ];
 
   for (const { file, size, inset } of jobs) {
-    const png = await sharp(Buffer.from(mark(inset)))
-      .resize(size, size)
-      .png({ compressionLevel: 9 })
-      .toBuffer();
+    let png;
+    if (sliced) {
+      const inner = Math.round(size * (1 - inset));
+      const pad = Math.round((size - inner) / 2);
+      png = await sharp({
+        create: { width: size, height: size, channels: 4, background: "#05080b" },
+      })
+        .composite([{ input: await sharp(sliced).resize(inner, inner).png().toBuffer(), left: pad, top: pad }])
+        .png({ compressionLevel: 9 })
+        .toBuffer();
+    } else {
+      png = await sharp(Buffer.from(mark(inset)))
+        .resize(size, size)
+        .png({ compressionLevel: 9 })
+        .toBuffer();
+    }
     await writeFile(join(OUT, file), png);
     console.log(`icons/${file}  ${size}×${size}  ${(png.length / 1024).toFixed(1)} kB`);
   }

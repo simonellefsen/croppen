@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "icons": "node scripts/generate-icons.mjs"
+    "icons": "node scripts/generate-icons.mjs",
+    "graphics": "node scripts/build-graphics.mjs",
+    "graphics:full": "node scripts/build-graphics.mjs --blender"
   },
   "dependencies": {
     "next": "16.2.12",

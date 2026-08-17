@@ -216,9 +216,9 @@ button {
 
 .depth-step {
   display: grid;
-  grid-template-columns: 26px 1fr;
+  grid-template-columns: 22px 32px 1fr;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -245,6 +245,24 @@ button {
 
 .depth-step[aria-current="true"] .depth-num {
   color: var(--accent);
+}
+
+.depth-thumb {
+  width: 28px;
+  height: 36px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #0a0f14;
+  border: 1px solid var(--rule);
+  display: grid;
+  place-items: center;
+}
+.depth-thumb img {
+  width: 28px;
+  height: 36px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  display: block;
 }
 
 .depth-label {
@@ -445,6 +463,43 @@ button {
 
 .layer-fade {
   transition: opacity 0.42s ease;
+}
+
+/* 3D plates sit under the vector hit-map. */
+.plate {
+  pointer-events: none;
+}
+.plate-multiply {
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+}
+.plate-screen {
+  mix-blend-mode: screen;
+}
+.has-plate .fascia-fill {
+  display: none;
+}
+.layer-muscles.has-plate .structure,
+.layer-organs.has-plate .structure,
+.layer-skeleton.has-plate .structure {
+  opacity: 0.06;
+}
+.layer-muscles.has-plate .structure:hover,
+.layer-organs.has-plate .structure:hover,
+.layer-skeleton.has-plate .structure:hover {
+  opacity: 0.5;
+  filter: none;
+}
+.layer-muscles.has-plate .structure.is-selected,
+.layer-organs.has-plate .structure.is-selected,
+.layer-skeleton.has-plate .structure.is-selected {
+  opacity: 0.72;
+  filter: drop-shadow(0 0 6px rgba(111, 179, 217, 0.85));
+}
+.layer-muscles.has-plate .structure.is-target,
+.layer-organs.has-plate .structure.is-target,
+.layer-skeleton.has-plate .structure.is-target {
+  opacity: 0.8;
 }
 
 /* The heart squeezes about its own centre, not the viewBox origin. */

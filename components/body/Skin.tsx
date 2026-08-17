@@ -2,6 +2,7 @@
 
 import { GEOMETRY } from "@/lib/anatomy/geometry";
 import type { Sex } from "@/lib/anatomy/types";
+import { Plate } from "./Plate";
 import { Bilateral, Part } from "./primitives";
 
 /**
@@ -14,7 +15,7 @@ export function Skin({ sex }: { sex: Sex }) {
   const head = sex === "female" ? headFemale : headMale;
 
   return (
-    <g className="layer-skin">
+    <g className="layer-skin has-plate">
       <Part id="skin">
         <path d={g.silhouette.torso} fill="url(#skinRound)" />
         <path d={g.silhouette.neck} fill="url(#skinRound)" />
@@ -80,6 +81,9 @@ export function Skin({ sex }: { sex: Sex }) {
           />
         </Bilateral>
       </Part>
+      {/* Lighting pass sits on top of the tinted silhouette so appearance
+          still drives melanin, while the 3D form reads through multiply. */}
+      <Plate sex={sex} name="skin-light" blend="multiply" />
 
       <Part id="navel">
         <ellipse

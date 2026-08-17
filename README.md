@@ -39,8 +39,11 @@ top bar. The choice is remembered.
 ## Stack
 
 Next.js 16 (App Router) exported as a fully static bundle — no server runtime.
-All artwork is hand-authored SVG; there are no image assets, no 3-D models and
-no third-party runtime dependencies beyond React.
+The figure is still an authored SVG hit-map (so every structure stays
+clickable, and the scalpel is still a real hole). Dimensional plates —
+skin lighting, muscle, organs, skeleton — are original 3-D renders that
+sit in the same 420×1000 viewBox. They are built by a local graphics
+pipeline, not taken from the book.
 
 ```
 app/                  shell, layout, global styles
@@ -53,7 +56,17 @@ components/
 lib/
   anatomy/            geometry, structure content, appearance presets
   i18n/               locale detection and bilingual UI strings
-scripts/              icon generation
+art/                  Blender / Krita / Affinity / TexturePacker sources
+public/plates/        rendered layer plates (webp)
+public/atlas/         packed thumbs and icon busts
+scripts/              icon generation and graphics pipeline
+```
+
+Rebuild the plates after changing `art/blender/build_anatomy.py`:
+
+```bash
+npm run graphics:full    # Blender → Krita → Affinity → TexturePacker → public/
+npm run graphics         # skip Blender; re-finish and pack existing renders
 ```
 
 ### Bilateral drawing

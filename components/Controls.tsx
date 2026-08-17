@@ -5,6 +5,13 @@ import { LAYERS, SYSTEMS, type Sex, type System } from "@/lib/anatomy/types";
 import { useI18n } from "@/lib/i18n";
 import type { StringKey } from "@/lib/i18n/strings";
 
+const LAYER_THUMB: Record<string, string> = {
+  skin: "skin",
+  muscles: "muscles",
+  organs: "organs",
+  skeleton: "skeleton",
+};
+
 const LAYER_LABEL: Record<string, { name: StringKey; sub: StringKey }> = {
   skin: { name: "layerSkin", sub: "layerSkinSub" },
   muscles: { name: "layerMuscles", sub: "layerMusclesSub" },
@@ -105,6 +112,21 @@ export function Controls(props: Props) {
               onClick={() => props.onDepth(i)}
             >
               <span className="depth-num">{i + 1}</span>
+              <span
+                className="depth-thumb"
+                style={{
+                  backgroundImage: `url(/atlas/ui.webp)`,
+                  // Packed later; the individual thumb is the fallback.
+                  backgroundSize: "cover",
+                }}
+              >
+                <img
+                  src={`/plates/${props.sex}-thumb-${LAYER_THUMB[l]}.webp`}
+                  alt=""
+                  width={28}
+                  height={36}
+                />
+              </span>
               <span className="depth-label">
                 {t(LAYER_LABEL[l].name)}
                 <small className="depth-sub">{t(LAYER_LABEL[l].sub)}</small>

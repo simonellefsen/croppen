@@ -2,6 +2,7 @@
 
 import { GEOMETRY } from "@/lib/anatomy/geometry";
 import type { Sex } from "@/lib/anatomy/types";
+import { Plate } from "./Plate";
 import { Bilateral, Part } from "./primitives";
 
 /**
@@ -15,10 +16,11 @@ export function Muscles({ sex }: { sex: Sex }) {
   const g = GEOMETRY[sex];
 
   return (
-    <g className="layer-muscles">
+    <g className="layer-muscles has-plate">
+      <Plate sex={sex} name="muscles" />
       {/* Deep connective tissue, so the gaps between muscles read as fascia
-          rather than as holes in the body. */}
-      <g fill="#4e2118" opacity="0.96">
+          rather than as holes in the body. Hidden when a 3D plate is painted. */}
+      <g className="fascia-fill" fill="#4e2118" opacity="0.96">
         <path d={g.silhouette.torso} />
         <path d={g.silhouette.neck} />
         <path d={g.silhouette.head} />

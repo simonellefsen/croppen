@@ -4,7 +4,7 @@
  * The app is a static bundle with no network data, so everything it needs can
  * live in the cache. Navigations fall back to the cached shell when offline.
  */
-const VERSION = "croppen-v1";
+const VERSION = "croppen-v2";
 const SHELL = ["/", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Sex } from "@/lib/anatomy/types";
+import { Plate } from "./Plate";
 import { Bilateral, Part } from "./primitives";
 
 /**
@@ -36,7 +37,8 @@ const COILS = coils();
  */
 export function Organs({ sex }: { sex: Sex }) {
   return (
-    <g className="layer-organs">
+    <g className="layer-organs has-plate">
+      <Plate sex={sex} name="organs" />
       {/* ── Head ── */}
       <Part id="brain">
         <path

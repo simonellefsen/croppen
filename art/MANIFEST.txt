@@ -1,0 +1,8 @@
+Croppen plates
+Built with Blender 5.2 (original figure, Poly Haven blue_photo_studio HDRI),
+Krita 5.3 finish script, Affinity 3 composite script, TexturePacker 8.2 atlas.
+
+public/plates/*.webp     full-body and thumb/icon plates
+public/atlas/ui.png      packed thumbs + icon busts
+public/atlas/ui.json     TexturePacker JSON hash
+public/icons/*           3-way skin | muscle | bone mark
